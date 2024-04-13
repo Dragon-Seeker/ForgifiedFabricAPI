@@ -16,8 +16,11 @@
 
 package net.fabricmc.fabric;
 
+import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 
 @Mod("fabric_api_base")
 public class Main {
+	public Main(IEventBus eventBus) {
+	}
 }
