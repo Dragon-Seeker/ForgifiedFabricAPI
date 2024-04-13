@@ -25,7 +25,6 @@ def configuredVersion = project.version
 version = project.version + '+' + project.forgified_version + "+" + (ENV.GITHUB_RUN_NUMBER ? "" : "local-") + getBranch()
 logger.lifecycle("Building Fabric: " + version)
 
-
 import net.fabricmc.loom.util.gradle.SourceSetHelper
 import groovy.json.JsonSlurper
 import org.apache.commons.codec.digest.DigestUtils
@@ -482,25 +481,25 @@ jacoco {
 	}
 }
 
-tasks.register('coverage', JacocoReport) {
-	dependsOn coverageTasks
-	coverageTasks.forEach {
-		executionData it
-	}
-
-	// Add all source as input
-	allprojects { p ->
-		if (p.path.startsWith(":deprecated")) {
-			return
-		}
-		sourceSets p.sourceSets.main, p.sourceSets.client, p.sourceSets.testmod/*, p.sourceSets.testmodClient*/
-	}
-
-	// Exclude mixins
-	classDirectories.setFrom(files(classDirectories.files.collect {
-		fileTree(dir: it, exclude: '**/mixin/**')
-	}))
-}
+//tasks.register('coverage', JacocoReport) {
+//	dependsOn coverageTasks
+//	coverageTasks.forEach {
+//		executionData it
+//	}
+//
+//	// Add all source as input
+//	allprojects { p ->
+//		if (p.path.startsWith(":deprecated")) {
+//			return
+//		}
+//		sourceSets p.sourceSets.main, p.sourceSets.client, p.sourceSets.testmod/*, p.sourceSets.testmodClient*/
+//	}
+//
+//	// Exclude mixins
+//	classDirectories.setFrom(files(classDirectories.files.collect {
+//		fileTree(dir: it, exclude: '**/mixin/**')
+//	}))
+//}
 
 configurations {
 	productionRuntime {
