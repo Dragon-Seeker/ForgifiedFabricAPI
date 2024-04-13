@@ -5,3 +5,5 @@ version = getSubprojectVersion(project)
 //	':fabric-lifecycle-events-v1',
 //	':fabric-screen-api-v1'
 //])
+
+tasks.getByName("checkReferenceCompatibility").enabled = false

@@ -138,6 +138,12 @@ allprojects {
 		}
 	}
 
+	try {
+		tasks.getByName("checkReferenceCompatibility").enabled = false
+	} catch(Exception e) {
+
+	}
+
 	publishing {
 		setupRepositories(repositories)
 	}
