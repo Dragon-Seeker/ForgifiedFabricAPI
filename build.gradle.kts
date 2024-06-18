@@ -94,6 +94,8 @@ allprojects {
     }
 
     tasks.named<Jar>("jar") {
+        exclude("fabric.mod.json")
+
         doLast {
             val factory = IncludedJarFactory(project)
             val nestedJars = factory.getNestedJars(configurations.getByName(Constants.Configurations.INCLUDE))
@@ -128,9 +130,10 @@ tasks {
 
 // Subprojects
 
-subprojects { group = "org.sinytra.fabric-api"  }
+apply(plugin = "ffapi.neo-setup")
 
-allprojects {
+subprojects {
+    group = "org.sinytra.forgified-fabric-api"
     val modDependencies: Configuration by configurations.creating
 
     tasks.register("generate") {
@@ -161,7 +164,8 @@ allprojects {
         }
     }
 
-    tasks.named<Jar>("sourcesJar") {
+    var sourcesJar = tasks.named<Jar>("sourcesJar") {
+        exclude("fabric.mod.json")
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     }
 
@@ -176,14 +180,18 @@ allprojects {
     publishing {
         publications {
             register<MavenPublication>("mavenJava") {
-                val remapReferenceApi = tasks.named<RemapJarTask>("remapReferenceApi").get();
-
                 pom {
                     addPomMetadataInformation(project, pom)
                 }
 
-                artifact(remapReferenceApi) {
-                    builtBy(remapReferenceApi)
+                var jar = tasks.named<Jar>("jar");
+
+                artifact(jar) {
+                    builtBy(jar)
+                }
+
+                artifact(sourcesJar) {
+                    builtBy(sourcesJar)
                 }
             }
         }
